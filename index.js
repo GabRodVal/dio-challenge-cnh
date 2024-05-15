@@ -29,9 +29,21 @@ function spawnGoblin() {
     newGoblin.style.width = "20%";
     newGoblin.style.transform = "translateY(-50%)";
     newGoblin.style.left = screenwidth + "px";
+    newGoblin.style.cursor = "pointer";
+    newGoblin.addEventListener('click', (e) => {
+        e.stopPropagation();
+        smashGoblin(newGoblin);
+    });
+    newGoblin.isPuffed = false;
+    newGoblin.doomCount = 0;
     document.getElementById("goblins").appendChild(newGoblin);
 
     return newGoblin
+}
+
+function smashGoblin(gob){
+    gob.src = "img/goblin_death.png";
+    gob.isPuffed = true
 }
 
 function goblinStride() {
@@ -45,13 +57,19 @@ function goblinStride() {
 
     summonGoblin();
 
+    function killGoblin(gob){
+        document.getElementById("goblins").removeChild(gob);
+        goblinCamp.splice(goblinCamp.indexOf(gob),1);
+    }
+
     function goblinAnimation() {
         if (goblinCamp.length > 0){
             for (f = 0; f<goblinCamp.length; f++){
                 let gPosition = parseInt(goblinCamp[f].style.left.slice(0, -2));
-                if(gPosition <= -goblinCamp[f].width){
-                    document.getElementById("goblins").removeChild(goblinCamp[f]);
-                    goblinCamp.shift();
+                if(gPosition <= -goblinCamp[f].width || goblinCamp[f].doomCount>= 15){
+                    killGoblin(goblinCamp[f])
+                } else if(goblinCamp[f].isPuffed == true){
+                    goblinCamp[f].doomCount +=1;
                 } else {
                     if (document.hasFocus()){
                         goblinCamp[f].style.left = (gPosition - 5) + "px"
@@ -59,14 +77,6 @@ function goblinStride() {
                 }
             }
         }
-        //let gPosition = parseInt(goblinImg.style.left.slice(0, -2))
-        //if (gPosition <= -goblinImg.width){
-        //    document.getElementById("goblins").removeChild(goblinImg);
-        //    goblinCamp.shift();
-        //} else {
-        //    goblinImg.style.left = (gPosition - 5) + "px"
-        //}
-        //console.log(gPosition)
     }
 
     setInterval(goblinAnimation, 10);
