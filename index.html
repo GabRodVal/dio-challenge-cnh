@@ -6,20 +6,20 @@
     <title>Classificador de Nível de Herói</title>
     
 </head>
-<body style="background-image: url('img/castelinho_do_paint.jpg'); background-size: cover; overflow: hidden;">
-    <h1 style="text-align: center;">Classificador de Nível de Herói</h1>
-    <div style="text-align: center;">
-        <p>Contando a História do Herói:</p>
-        <h2 style="cursor: pointer;" id="heroname" onclick="changeName()"></h2>
+<body style="margin: -20px; background-image: url('img/castelinho_do_paint.jpg'); background-size: cover; overflow: hidden;">
+    <h1 style="text-align: center; font-family:Arial, Helvetica, sans-serif; font-weight: bold; font-size: 52px; color: rgb(255,153,153); -webkit-text-stroke-width: 2px; -webkit-text-stroke-color:rgb(204,0,0);">Classificador de Nível de Herói</h1>
+    <div style="margin:-15px;font-family:Arial, Helvetica, sans-serif; font-weight: bold; text-align: center;">
+        <p style="color: white; font-size: 34px; -webkit-text-stroke-color: rgb(165, 165, 165); -webkit-text-stroke-width: 1px;">Contando a História do Herói:</p>
+        <h2 style="margin:-35px; cursor: pointer; font-size: 72px; color: rgb(255,255,51); text-shadow:2px 2px 5px black; -webkit-text-stroke-width: 2px; -webkit-text-stroke-color: rgb(153,153,51);" id="heroname" onclick="changeName()"></h2>
     </div>
 
-    <div style="width:100%; padding: 15%;" id="goblins">
-        <!--<img style="width: 20%; height: 20%; animation: alternate-reverse 100px;" src="img/goblin.png">-->
-    </div>
+    <div style="width:100%; padding: 15%;" id="goblins"></div>
 
-    <div style="text-align: center;">
-        XP
-        <p>O nível atual de <span id="heroname2"></span> é: <span id="herolevel"></span></p>
+    <div style="align-items:center; text-align: center;">
+        <div id="progress-border" style="height: 50px; width: 60%; display: block; margin: auto; border: 5px solid; border-radius: 20px;">
+            <div id="progress-bar" style="width: 0%; height: 100%; border-radius: 15px;"></div>
+        </div>
+        <p style="font-size:40px; font-family:Arial, Helvetica, sans-serif; font-weight: bold; color: white; -webkit-text-stroke-width: 1px;-webkit-text-stroke-color: black;">O nível atual de <span id="heroname2"></span> é: <span id="herolevel" style = "font-size:56px; -webkit-text-stroke-width: 2px;"></span></p>
     </div>
     
     <script src="index.js"></script>
