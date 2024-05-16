@@ -8,19 +8,12 @@ heroName2.innerHTML = hero
 function changeName(){
     do{
         var hero = window.prompt("Qual o nome do heroi?");
-        console.log(hero)
-    }while(hero == "")
+    }while(hero == "" || hero == null)
     heroName.innerHTML = hero;
+    heroName2.innerHTML = hero;
 }
 
-//const goblinImg = new Image();
-//goblinImg.style.position = "absolute";
-//goblinImg.src = "img/goblin.png"
-//goblinImg.style.width = "20%"
-//goblinImg.style.transform = "translateY(-50%)";
-
 var screenwidth = document.body.clientWidth
-//goblinImg.style.left = screenwidth - 100 + "px";
 
 function spawnGoblin() {
     let newGoblin =  document.createElement('img')
@@ -43,7 +36,16 @@ function spawnGoblin() {
 
 function smashGoblin(gob){
     gob.src = "img/goblin_death.png";
-    gob.isPuffed = true
+
+    if (gob.isPuffed == false){
+        experience += 200;
+        progressBar(level(experience));
+        gob.isPuffed = true;
+    }
+    if (heroLevel.innerHTML != level(experience)){
+        heroLevel.innerHTML = level(experience)
+        levelDecor(level(experience))
+    }
 }
 
 function goblinStride() {
@@ -72,7 +74,7 @@ function goblinStride() {
                     goblinCamp[f].doomCount +=1;
                 } else {
                     if (document.hasFocus()){
-                        goblinCamp[f].style.left = (gPosition - 5) + "px"
+                        goblinCamp[f].style.left = (gPosition - 7) + "px"
                     }
                 }
             }
@@ -80,15 +82,8 @@ function goblinStride() {
     }
 
     setInterval(goblinAnimation, 10);
-    setInterval(summonGoblin, 2000);
+    setInterval(summonGoblin, 1500);
 }
-
-
-
-
-var experience = 0;
-var heroLevel = document.getElementById('herolevel');
-heroLevel.innerHTML = level(experience)
 
 function level(xp){
     if (xp <= 1000){
@@ -110,7 +105,89 @@ function level(xp){
     }
 }
 
+var experience = 0;
+var heroLevel = document.getElementById('herolevel');
+heroLevel.innerHTML = level(experience);
+var pBar = document.getElementById('progress-bar');
+var pBorder = document.getElementById('progress-border');
+levelDecor(level(experience));
+
+function progressBar(curLevel){
+    let pMin, pMax;
+    if (curLevel == "Ferro"){
+        pMin = 0;
+        pMax = 1000;
+    }else if(curLevel == "Bronze"){
+        pMin = 1000;
+        pMax = 2000;
+    }else if(curLevel == "Prata"){
+        pMin = 2000;
+        pMax = 5000;
+    }else if(curLevel == "Ouro"){
+        pMin = 5000;
+        pMax = 7000;
+    }else if(curLevel == "Platina"){
+        pMin = 7000;
+        pMax = 8000;
+    }else if(curLevel == "Ascendente"){
+        pMin = 8000;
+        pMax = 9000;
+    }else if(curLevel == "Imortal"){
+        pMin = 9000;
+        pMax = 10000;
+    }
+
+    if(experience<10000){
+        pBar.style.width = (((experience - pMin)/(pMax - pMin)) * 100) + "%"
+    }else{
+        pBar.style.width = "100%";
+    }
+}
+
+function levelDecor(curLevel){
+    let c1, c2, c3;
+    if (curLevel == "Ferro"){
+        c1 = "rgb(51,51,51)"
+        c2 = "rgb(0,0,0)"
+        c3 = "rgb(204,204,204)"
+    }else if(curLevel == "Bronze"){
+        c1 = "rgb(153,51,0)"
+        c2 = "rgb(51,0,0)"
+        c3 = "rgb(255,153,102)"
+    }else if(curLevel == "Prata"){
+        c1 = "rgb(204,204,204)"
+        c2 = "rgb(153,153,153)"
+        c3 = "rgb(255,255,255)"
+    }else if(curLevel == "Ouro"){
+        c1 = "rgb(255,255,51)"
+        c2 = "rgb(153,153,51)"
+        c3 = "rgb(255,255,153)"
+    }else if(curLevel == "Platina"){
+        c1 = "rgb(255,255,255)"
+        c2 = "rgb(153,255,255)"
+        c3 = "rgb(204,255,255)"
+    }else if(curLevel == "Ascendente"){
+        c1 = "rgb(204,0,0)"
+        c2 = "rgb(102,0,0)"
+        c3 = "rgb(255,153,153)"
+    }else if(curLevel == "Imortal"){
+        c1 = "rgb(153,0,255)"
+        c2 = "rgb(102,0,153)"
+        c3 = "rgb(204,102,255)"
+    }else{
+        c1 = "rgb(51,51,255)"
+        c2 = "rgb(0,0,102)"
+        c3 = "rgb(204,204,255)"
+    }
+
+    heroLevel.style.color = c1;
+    heroLevel.style['-webkit-text-stroke-color']= c2;
+    pBar.style.background = "radial-gradient(circle,"+ c1 +"0%,"+c3+"100%)"
+    pBorder.style.borderColor = c2;
+
+
+     
+
+}
 
 goblinStride()
-
-console.log("O herói "+hero+" possui "+ experience + " e está no nível "+level(experience)+"!");
